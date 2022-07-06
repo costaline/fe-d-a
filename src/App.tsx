@@ -5,7 +5,7 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  const {t, i18n} = useTranslation()
+  const {t, i18n} = useTranslation('main')
 
   return (
     <div className="App">
@@ -20,7 +20,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          {t('learnReact')}
+          {t('learnText')}
         </a>
         <select defaultValue={i18n.language} onChange={(e) => i18n.changeLanguage(e.target.value)}>
           {availableLanguages.map((language) => (

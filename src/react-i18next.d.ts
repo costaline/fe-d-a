@@ -1,9 +1,11 @@
 import 'react-i18next';
-import en from './translations/en.json'
+import main from './i18n/en/main.json'
 
 declare module 'react-i18next' {
   interface CustomTypeOptions  {
-    defaultNS: 'common';
-    resources: typeof en;
+    defaultNS: 'main';
+    resources: {
+      main: typeof main
+    }
   }
 }
