@@ -1,24 +1,25 @@
 import i18n from "i18next";
+import resourcesToBackend from 'i18next-resources-to-backend'
 import {initReactI18next} from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-import emMain from "./en/main.json";
-import ruMain from "./ru/main.json"
 
-const resources = {
-  en: {
-    main: emMain
-  },
-  ru: {
-    main: ruMain
-  },
-}
+export const availableLanguages = ['en', 'ru']
 
-export const availableLanguages = Object.keys(resources)
-
-i18n.use(initReactI18next)
+i18n
+  .use(initReactI18next)
+  .use(resourcesToBackend((language, namespace, callback) => {
+    import(`./${language}/${namespace}.json`)
+      .then((resources) => {
+        callback(null, resources)
+      })
+      .catch((error) => {
+        callback(error, null)
+      })
+  }))
   .use(LanguageDetector)
   .init({
-    resources,
+    debug: process.env.NODE_ENV === 'development',
     defaultNS: "main",
+    ns: ['main'],
     fallbackLng: "en",
   });
