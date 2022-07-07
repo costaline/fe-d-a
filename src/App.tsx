@@ -1,19 +1,14 @@
+import { LanguageSelector } from '@@/components'
 import { css } from '@emotion/react'
-import styled from '@emotion/styled'
 import React from 'react';
 import { useTranslation } from 'react-i18next'
-import { availableLanguages } from './i18n'
 import logo from './logo.svg';
 import './App.css';
-
-const Select = styled.select`
-  margin: 20px
-`
 
 const padding = css`padding: 10px 20px`
 
 function App() {
-  const {t, i18n} = useTranslation('main')
+  const {t} = useTranslation('main')
 
   return (
     <div className="App" >
@@ -30,11 +25,7 @@ function App() {
         >
           {t('learnText')}
         </a>
-        <Select defaultValue={i18n.language} onChange={(e) => i18n.changeLanguage(e.target.value)}>
-          {availableLanguages.map((language) => (
-            <option key={language}>{language}</option>
-          ))}
-        </Select>
+        <LanguageSelector/>
       </header>
     </div>
   );
