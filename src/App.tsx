@@ -3,7 +3,7 @@ import { css } from '@emotion/react'
 import React from 'react';
 import { useTranslation } from 'react-i18next'
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 
 const padding = css`padding: 10px 20px`
 
