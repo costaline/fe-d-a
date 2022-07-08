@@ -15,5 +15,8 @@ export default {
     {
       plugin: require('./.misc/craco-plugin-stylus')
     },
+		{
+			plugin: require('./.misc/craco-plugin-scoped-css'),
+		},
   ]
 }
