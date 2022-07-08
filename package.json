@@ -26,14 +26,15 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
+    "prettier:check": "prettier --ignore-unknown --check src",
+    "prettier:fix": "prettier --ignore-unknown --write src",
+    "stylelint:css:check": "stylelint \"src/**/*.{css,scss,sass,styl,stylus}\"",
+    "stylelint:css:fix": "npm run stylelint:css:check -- --fix",
+    "stylelint:js:check": "stylelint \"src/**/*.{js,jsx,ts,tsx}\"",
+    "eslint:check": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
+    "eslint:fix": "npm run eslint:check -- --fix",
     "test": "craco test",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [
@@ -49,8 +50,34 @@
   },
   "devDependencies": {
     "@emotion/babel-preset-css-prop": "^11.2.0",
+    "@stylelint/postcss-css-in-js": "^0.38.0",
+    "@typescript-eslint/eslint-plugin": "^5.30.5",
+    "@typescript-eslint/parser": "^5.30.5",
     "craco-alias": "^3.0.1",
+    "eslint": "^8.19.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^3.2.4",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.30.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "postcss-sass": "^0.5.0",
+    "postcss-scss": "^4.0.4",
+    "postcss-syntax": "^0.36.2",
+    "prettier": "^2.7.1",
     "sass": "^1.53.0",
+    "stylelint": "^14.9.1",
+    "stylelint-config-clean-order": "^0.8.0",
+    "stylelint-config-css-modules": "^4.1.0",
+    "stylelint-config-hudochenkov": "^7.0.1",
+    "stylelint-config-prettier": "^9.0.3",
+    "stylelint-config-standard": "^26.0.0",
+    "stylelint-config-standard-scss": "^4.0.0",
+    "stylelint-prettier": "^2.0.0",
+    "stylelint-stylus": "^0.16.1",
     "stylus": "^0.58.1",
     "stylus-loader": "^7.0.0"
   }
