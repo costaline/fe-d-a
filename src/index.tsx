@@ -5,6 +5,13 @@ import { createRoot } from 'react-dom/client'
 import { Root } from '@@/Root'
 import reportWebVitals from './reportWebVitals'
 
+import 'sanitize.css'
+import 'sanitize.css/forms.css'
+import 'sanitize.css/typography.css'
+import './assets/fonts/index.scss'
+import './assets/styles/variables/index.styl'
+import './assets/styles/global.scss'
+
 const root = createRoot(document.getElementById('root') as HTMLElement)
 
 root.render(<Root />)

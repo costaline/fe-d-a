@@ -10,6 +10,7 @@ module.exports = {
 
 		'stylus/declaration-colon': 'always',
 		'stylus/indentation': 'tab',
+		'stylus/media-feature-colon': 'always',
 	},
 
 	overrides: [
