@@ -1,12 +1,14 @@
 import { FC, StrictMode } from 'react'
-import { useTranslation } from 'react-i18next'
+import { BrowserRouter } from 'react-router-dom'
+
+import FileBasedRouting from '@@/features/FileBasedRouting/lazy'
 
 export const Root: FC = () => {
-	const { t } = useTranslation()
-
 	return (
 		<StrictMode>
-			<div>{t('root')}</div>
+			<BrowserRouter>
+				<FileBasedRouting />
+			</BrowserRouter>
 		</StrictMode>
 	)
 }
