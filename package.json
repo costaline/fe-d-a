@@ -5,6 +5,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
+    "graphql:codegen": "graphql-codegen --config codegen.yml",
     "prettier:check": "prettier --ignore-unknown --check src",
     "prettier:fix": "prettier --ignore-unknown --write src",
     "stylelint:css:check": "stylelint \"src/**/*.{css,scss,sass,styl,stylus}\"",
@@ -55,6 +56,10 @@
   },
   "devDependencies": {
     "@emotion/babel-preset-css-prop": "^11.2.0",
+    "@graphql-codegen/cli": "2.8.1",
+    "@graphql-codegen/schema-ast": "^2.5.0",
+    "@graphql-codegen/typescript": "2.7.1",
+    "@graphql-codegen/typescript-operations": "2.5.1",
     "@stylelint/postcss-css-in-js": "^0.38.0",
     "@types/classnames": "^2.3.1",
     "@types/jest": "^28.1.4",
