@@ -23,6 +23,46 @@ input AboutInput {
   title: String
 }
 
+type Article {
+  content: String
+  createdAt: DateTime
+  publishedAt: DateTime
+  title: String
+  updatedAt: DateTime
+}
+
+type ArticleEntity {
+  attributes: Article
+  id: ID
+}
+
+type ArticleEntityResponse {
+  data: ArticleEntity
+}
+
+type ArticleEntityResponseCollection {
+  data: [ArticleEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input ArticleFiltersInput {
+  and: [ArticleFiltersInput]
+  content: StringFilterInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  not: ArticleFiltersInput
+  or: [ArticleFiltersInput]
+  publishedAt: DateTimeFilterInput
+  title: StringFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input ArticleInput {
+  content: String
+  publishedAt: DateTime
+  title: String
+}
+
 input BooleanFilterInput {
   and: [Boolean]
   between: [Boolean]
@@ -103,7 +143,7 @@ input FloatFilterInput {
   startsWith: Float
 }
 
-union GenericMorph = About | I18NLocale | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
+union GenericMorph = About | Article | I18NLocale | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
 
 type I18NLocale {
   code: String
@@ -212,6 +252,7 @@ input JSONFilterInput {
 }
 
 type Mutation {
+  createArticle(data: ArticleInput!): ArticleEntityResponse
   createUploadFile(data: UploadFileInput!): UploadFileEntityResponse
 
   """Create a new role"""
@@ -220,6 +261,7 @@ type Mutation {
   """Create a new user"""
   createUsersPermissionsUser(data: UsersPermissionsUserInput!): UsersPermissionsUserEntityResponse!
   deleteAbout: AboutEntityResponse
+  deleteArticle(id: ID!): ArticleEntityResponse
   deleteUploadFile(id: ID!): UploadFileEntityResponse
 
   """Delete an existing role"""
@@ -245,6 +287,7 @@ type Mutation {
   """
   resetPassword(code: String!, password: String!, passwordConfirmation: String!): UsersPermissionsLoginPayload
   updateAbout(data: AboutInput!): AboutEntityResponse
+  updateArticle(data: ArticleInput!, id: ID!): ArticleEntityResponse
   updateFileInfo(id: ID!, info: FileInfoInput): UploadFileEntityResponse!
   updateUploadFile(data: UploadFileInput!, id: ID!): UploadFileEntityResponse
 
@@ -277,6 +320,8 @@ enum PublicationState {
 
 type Query {
   about(publicationState: PublicationState = LIVE): AboutEntityResponse
+  article(id: ID): ArticleEntityResponse
+  articles(filters: ArticleFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): ArticleEntityResponseCollection
   i18NLocale(id: ID): I18NLocaleEntityResponse
   i18NLocales(filters: I18NLocaleFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): I18NLocaleEntityResponseCollection
   me: UsersPermissionsMe

@@ -12,6 +12,9 @@ export default {
         tsConfigPath: './tsconfig.paths.json',
       },
     },
+		{
+			plugin: require('./.misc/craco-plugin-graphql')
+		},
     {
       plugin: require('./.misc/craco-plugin-stylus')
     },

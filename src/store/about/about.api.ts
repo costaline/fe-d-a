@@ -1,19 +1,20 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { graphqlRequestBaseQuery } from '@rtk-query/graphql-request-base-query'
 import { gql } from 'graphql-request'
 
-import { About } from '@@/generated/graphql.types'
+import {
+	GetAboutQuery,
+	GetAboutQueryVariables,
+} from '@@/generated/graphql.types'
+import { baseGraphqlQuery } from '@@/store/baseApi'
 
 export const aboutApi = createApi({
 	reducerPath: 'about/api',
-	baseQuery: graphqlRequestBaseQuery({
-		url: 'http://127.0.0.1:1337/graphql',
-	}),
+	baseQuery: baseGraphqlQuery,
 	endpoints: (builder) => ({
-		getAbout: builder.query<About, void>({
+		getAbout: builder.query<GetAboutQuery, GetAboutQueryVariables>({
 			query: () => ({
 				document: gql`
-					query getAbout {
+					query GetAbout {
 						about {
 							data {
 								attributes {

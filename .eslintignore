@@ -2,4 +2,3 @@ src/setupTests.ts
 src/reportWebVitals.ts
 src/service-worker.ts
 src/serviceWorkerRegistration.ts
-src/generated
