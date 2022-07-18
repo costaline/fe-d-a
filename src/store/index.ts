@@ -17,6 +17,28 @@ import { cartSlice } from '@@/store/cart/cart.slice'
 import { productsApi } from '@@/store/products/products.api'
 import { uiSlice } from '@@/store/ui/ui.slice'
 
+const combinedReducer = combineReducers({
+	[productsApi.reducerPath]: productsApi.reducer,
+	[aboutApi.reducerPath]: aboutApi.reducer,
+	[articlesApi.reducerPath]: articlesApi.reducer,
+
+	[uiSlice.name]: uiSlice.reducer,
+	[cartSlice.name]: cartSlice.reducer,
+})
+
+export const RESET_STATE = '!!!RESET_STATE!!!'
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const rootReducer = (state, action) => {
+	if (action.type === RESET_STATE) {
+		// eslint-disable-next-line no-param-reassign
+		state = undefined
+	}
+
+	return combinedReducer(state, action)
+}
+
 const persistConfig = {
 	key: 'root',
 	version: 1,
@@ -24,17 +46,7 @@ const persistConfig = {
 	whitelist: ['ui'],
 }
 
-export const persistedReducer = persistReducer(
-	persistConfig,
-	combineReducers({
-		[productsApi.reducerPath]: productsApi.reducer,
-		[aboutApi.reducerPath]: aboutApi.reducer,
-		[articlesApi.reducerPath]: articlesApi.reducer,
-
-		[uiSlice.name]: uiSlice.reducer,
-		[cartSlice.name]: cartSlice.reducer,
-	})
-)
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({
 	reducer: persistedReducer,
