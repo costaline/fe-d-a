@@ -4193,6 +4193,11 @@ crypt@0.0.2:
   resolved "https://registry.yarnpkg.com/crypt/-/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
   integrity sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==
 
+crypto-js@3.1.9-1:
+  version "3.1.9-1"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-3.1.9-1.tgz#fda19e761fc077e01ffbfdc6e9fdfc59e8806cd8"
+  integrity sha512-W93aKztssqf29OvUlqfikzGyYbD1rpkXvGP9IQ1JchLY3bxaLXZSWYbwrtib2vk8DobrDzX7PIXcDWHp0B6Ymw==
+
 crypto-random-string@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-2.0.0.tgz#ef2a7a966ec11083388369baa02ebead229b30d5"
@@ -7286,6 +7291,11 @@ json-stable-stringify@^1.0.1:
   dependencies:
     jsonify "~0.0.0"
 
+json-stringify-safe@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
+  integrity sha512-ZClg6AaYvamvYEE82d3Iyd3vSSIjQ+odgjaTzRuO3s7toCdFKczob2i0zCh7JE8kWn17yvAWhUVxvqGwUalsRA==
+
 json-to-pretty-yaml@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/json-to-pretty-yaml/-/json-to-pretty-yaml-1.2.2.tgz#f4cd0bd0a5e8fe1df25aaf5ba118b099fd992d5b"
@@ -9446,6 +9456,14 @@ redent@^3.0.0:
   dependencies:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
+
+redux-persist-transform-encrypt@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/redux-persist-transform-encrypt/-/redux-persist-transform-encrypt-3.0.1.tgz#d9428a649a6eefa69f88f61ed9d846f4b8ea0d5b"
+  integrity sha512-09cgNeTnCTzTjMqmbNty+7wPQeQ5YLnKilbVyeKc/YeTvR0vHGo5hnal3+hiQiJMnYRS/qLkII2jhxSfb5Lw6Q==
+  dependencies:
+    crypto-js "3.1.9-1"
+    json-stringify-safe "^5.0.1"
 
 redux-persist@^6.0.0:
   version "6.0.0"

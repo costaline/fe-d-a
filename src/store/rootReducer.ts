@@ -1,4 +1,5 @@
 import { combineReducers } from '@reduxjs/toolkit'
+import { persistReducer } from 'redux-persist'
 
 import { aboutApi } from '@@/store/about/about.api'
 import { articlesApi } from '@@/store/articles/articles.api'
@@ -6,6 +7,7 @@ import { authSlice } from '@@/store/auth/auth.slice'
 import { cartSlice } from '@@/store/cart/cart.slice'
 import { productsApi } from '@@/store/products/products.api'
 import { uiSlice } from '@@/store/ui/ui.slice'
+import { authPersistConfig, rootPersistConfig } from './configurePersist'
 
 const combinedReducer = combineReducers({
 	/* api */
@@ -13,7 +15,10 @@ const combinedReducer = combineReducers({
 	[aboutApi.reducerPath]: aboutApi.reducer,
 	[articlesApi.reducerPath]: articlesApi.reducer,
 	/* slices */
-	[authSlice.name]: authSlice.reducer,
+	[authSlice.name]: persistReducer(
+		authPersistConfig,
+		authSlice.reducer
+	) as typeof authSlice.reducer, // cast to prevent loss of types
 	[uiSlice.name]: uiSlice.reducer,
 	[cartSlice.name]: cartSlice.reducer,
 })
@@ -34,3 +39,5 @@ export const rootReducer = (state, action) => {
 
 	return combinedReducer(state, action)
 }
+
+export const persistedReducer = persistReducer(rootPersistConfig, rootReducer)

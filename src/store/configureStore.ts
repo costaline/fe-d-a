@@ -11,7 +11,7 @@ import {
 import { aboutApi } from '@@/store/about/about.api'
 import { articlesApi } from '@@/store/articles/articles.api'
 import { productsApi } from '@@/store/products/products.api'
-import { persistedReducer } from './persistStore'
+import { persistedReducer } from './rootReducer'
 
 export const store = configureStore({
 	reducer: persistedReducer,
