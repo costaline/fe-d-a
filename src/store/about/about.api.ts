@@ -5,11 +5,11 @@ import {
 	GetAboutQuery,
 	GetAboutQueryVariables,
 } from '@@/generated/graphql.types'
-import { baseGraphqlQuery } from '@@/store/baseApi'
+import { baseGraphqlPrivateQueryWithReAuth } from '@@/store/baseGraphqlQuery'
 
 export const aboutApi = createApi({
 	reducerPath: 'about/api',
-	baseQuery: baseGraphqlQuery,
+	baseQuery: baseGraphqlPrivateQueryWithReAuth,
 	endpoints: (builder) => ({
 		getAbout: builder.query<GetAboutQuery, GetAboutQueryVariables>({
 			query: () => ({

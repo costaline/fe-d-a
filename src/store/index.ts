@@ -13,15 +13,18 @@ import storage from 'redux-persist/lib/storage'
 
 import { aboutApi } from '@@/store/about/about.api'
 import { articlesApi } from '@@/store/articles/articles.api'
+import { authSlice } from '@@/store/auth/auth.slice'
 import { cartSlice } from '@@/store/cart/cart.slice'
 import { productsApi } from '@@/store/products/products.api'
 import { uiSlice } from '@@/store/ui/ui.slice'
 
 const combinedReducer = combineReducers({
+	/* api */
 	[productsApi.reducerPath]: productsApi.reducer,
 	[aboutApi.reducerPath]: aboutApi.reducer,
 	[articlesApi.reducerPath]: articlesApi.reducer,
-
+	/* slices */
+	[authSlice.name]: authSlice.reducer,
 	[uiSlice.name]: uiSlice.reducer,
 	[cartSlice.name]: cartSlice.reducer,
 })
@@ -43,7 +46,7 @@ const persistConfig = {
 	key: 'root',
 	version: 1,
 	storage,
-	whitelist: ['ui'],
+	whitelist: ['auth', 'ui'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
