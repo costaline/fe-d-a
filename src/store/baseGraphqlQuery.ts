@@ -1,8 +1,11 @@
 import { graphqlRequestBaseQuery } from '@rtk-query/graphql-request-base-query'
+import { Mutex } from 'async-mutex'
 
 import { strapiAdapter } from '@@/store/adapter'
 import { authActions } from '@@/store/auth/auth.slice'
 import { RootState } from '@@/store/index'
+
+const mutex = new Mutex()
 
 export const baseGraphqlPublicQuery = graphqlRequestBaseQuery({
 	url: `${process.env.REACT_APP_STRAPI_BASE_URL}/graphql`,
@@ -26,6 +29,8 @@ const adapter = strapiAdapter
 
 export const baseGraphqlPrivateQueryWithReAuth: typeof baseGraphqlPublicQuery =
 	async (args, api, extraOptions) => {
+		await mutex.waitForUnlock()
+
 		let result = await baseGraphqlPrivateQuery(args, api, extraOptions)
 
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -36,31 +41,45 @@ export const baseGraphqlPrivateQueryWithReAuth: typeof baseGraphqlPublicQuery =
 			if (!refreshToken) {
 				api.dispatch(authActions.logout())
 
+				await mutex.waitForUnlock()
+
 				return result
 			}
 
-			const refreshResult = await baseGraphqlPublicQuery(
-				{
-					document: adapter.gqlDocument,
-					variables: adapter.getGqlVariables(refreshToken),
-				},
-				api,
-				extraOptions
-			)
+			if (!mutex.isLocked()) {
+				const release = await mutex.acquire()
 
-			if (refreshResult.data) {
-				const { user } = (api.getState() as RootState).auth
+				try {
+					const refreshResult = await baseGraphqlPublicQuery(
+						{
+							document: adapter.gqlDocument,
+							variables: adapter.getGqlVariables(refreshToken),
+						},
+						api,
+						extraOptions
+					)
 
-				api.dispatch(
-					authActions.setCredentials({
-						user,
-						...adapter.getTokensFromRefreshData(refreshResult.data),
-					})
-				)
+					if (refreshResult.data) {
+						const { user } = (api.getState() as RootState).auth
+
+						api.dispatch(
+							authActions.setCredentials({
+								user,
+								...adapter.getTokensFromRefreshData(refreshResult.data),
+							})
+						)
+
+						result = await baseGraphqlPrivateQuery(args, api, extraOptions)
+					} else {
+						api.dispatch(authActions.logout())
+					}
+				} finally {
+					release()
+				}
+			} else {
+				await mutex.waitForUnlock()
 
 				result = await baseGraphqlPrivateQuery(args, api, extraOptions)
-			} else {
-				api.dispatch(authActions.logout())
 			}
 		}
 
