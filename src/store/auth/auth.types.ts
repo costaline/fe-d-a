@@ -3,6 +3,7 @@ export interface AuthState {
 	user: null | string
 	token: null | string
 	refreshToken: null | string
+	isRemember: boolean
 }
 
 /* success register response */

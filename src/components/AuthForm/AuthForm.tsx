@@ -25,6 +25,8 @@ const forms: Forms = {
 export const AuthForm = () => {
 	const [authType, setAuthType] = useState<AuthVariants>('login')
 
+	const [isRemember, setIsRemember] = useState(false)
+
 	const dispatch = useAppDispatch()
 
 	const onSubmitHandler = (data: AuthResponse) => {
@@ -33,6 +35,7 @@ export const AuthForm = () => {
 				token: data.jwt,
 				refreshToken: null,
 				user: data.user.username,
+				isRemember,
 			})
 		)
 	}
@@ -45,7 +48,12 @@ export const AuthForm = () => {
 
 			<label>
 				<span>REMEMBER ME</span>
-				<input type="checkbox" />
+				<input
+					checked={isRemember}
+					name="remember"
+					type="checkbox"
+					onChange={() => setIsRemember((prev) => !prev)}
+				/>
 			</label>
 
 			<div>
