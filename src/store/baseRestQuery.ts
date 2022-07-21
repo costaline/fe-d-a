@@ -60,13 +60,10 @@ export const baseRestPrivateQueryWithReAuth: typeof baseRestPublicQuery =
 					)
 
 					if (refreshResult.data) {
-						const { user } = (api.getState() as RootState).auth
-
 						api.dispatch(
-							authActions.setCredentials({
-								user,
-								...adapter.getTokensFromRefreshData(refreshResult.data),
-							})
+							authActions.updateCredentials(
+								adapter.getTokensFromRefreshData(refreshResult.data)
+							)
 						)
 
 						result = await baseRestPrivateQuery(args, api, extraOptions)

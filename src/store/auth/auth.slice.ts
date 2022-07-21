@@ -10,6 +10,9 @@ export const authSlice = createSlice({
 		setCredentials(state, action: PayloadAction<AuthState>) {
 			return action.payload
 		},
+		updateCredentials(state, action: PayloadAction<Partial<AuthState>>) {
+			return { ...state, ...action.payload }
+		},
 		logout() {
 			return authInitialState
 		},
