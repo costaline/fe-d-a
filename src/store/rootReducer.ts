@@ -3,6 +3,7 @@ import { persistReducer } from 'redux-persist'
 
 import { aboutApi } from '@@/store/about/about.api'
 import { articlesApi } from '@@/store/articles/articles.api'
+import { authApi } from '@@/store/auth/auth.api'
 import { authSlice } from '@@/store/auth/auth.slice'
 import { cartSlice } from '@@/store/cart/cart.slice'
 import { productsApi } from '@@/store/products/products.api'
@@ -11,6 +12,7 @@ import { authPersistConfig, rootPersistConfig } from './configurePersist'
 
 const combinedReducer = combineReducers({
 	/* api */
+	[authApi.reducerPath]: authApi.reducer,
 	[productsApi.reducerPath]: productsApi.reducer,
 	[aboutApi.reducerPath]: aboutApi.reducer,
 	[articlesApi.reducerPath]: articlesApi.reducer,
