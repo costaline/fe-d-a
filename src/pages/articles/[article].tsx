@@ -1,5 +1,6 @@
 import { FC, useEffect } from 'react'
 
+import { withAuthGuard } from '@@/hocs/withAuthGuard'
 import { useGetArticleQuery } from '@@/store/articles/articles.api'
 
 const ArticlePage: FC = () => {
@@ -16,4 +17,4 @@ const ArticlePage: FC = () => {
 	)
 }
 
-export default ArticlePage
+export default withAuthGuard(ArticlePage, '/welcome')
