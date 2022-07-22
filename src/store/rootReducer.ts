@@ -8,7 +8,7 @@ import { authSlice } from '@@/store/auth/auth.slice'
 import { cartSlice } from '@@/store/cart/cart.slice'
 import { productsApi } from '@@/store/products/products.api'
 import { uiSlice } from '@@/store/ui/ui.slice'
-import { authPersistConfig, rootPersistConfig } from './configurePersist'
+import { rootPersistConfig } from './configurePersist'
 
 const combinedReducer = combineReducers({
 	/* api */
@@ -17,10 +17,7 @@ const combinedReducer = combineReducers({
 	[aboutApi.reducerPath]: aboutApi.reducer,
 	[articlesApi.reducerPath]: articlesApi.reducer,
 	/* slices */
-	[authSlice.name]: persistReducer(
-		authPersistConfig,
-		authSlice.reducer
-	) as typeof authSlice.reducer, // cast to prevent loss of types
+	[authSlice.name]: authSlice.reducer,
 	[uiSlice.name]: uiSlice.reducer,
 	[cartSlice.name]: cartSlice.reducer,
 })
