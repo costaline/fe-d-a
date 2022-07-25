@@ -1,5 +1,6 @@
 import './i18n'
 
+import OverlayScrollbars from 'overlayscrollbars'
 import { createRoot } from 'react-dom/client'
 
 import { Root } from '@@/Root'
@@ -9,6 +10,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import 'sanitize.css'
 import 'sanitize.css/forms.css'
 import 'sanitize.css/typography.css'
+import 'overlayscrollbars/css/OverlayScrollbars.css'
 import './assets/fonts/index.scss'
 import './assets/styles/variables/index.styl'
 import './assets/styles/global.scss'
@@ -26,3 +28,9 @@ serviceWorkerRegistration.unregister()
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals()
+
+OverlayScrollbars(document.body, {
+	scrollbars: {
+		autoHide: 'move',
+	},
+})
