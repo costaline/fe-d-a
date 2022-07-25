@@ -1,70 +1,11 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import {
-	FLUSH,
-	PAUSE,
-	PERSIST,
-	persistReducer,
-	persistStore,
-	PURGE,
-	REGISTER,
-	REHYDRATE,
-} from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
+import { persistStore } from 'redux-persist'
 
-import { aboutApi } from '@@/store/about/about.api'
-import { articlesApi } from '@@/store/articles/articles.api'
-import { cartSlice } from '@@/store/cart/cart.slice'
-import { productsApi } from '@@/store/products/products.api'
-import { uiSlice } from '@@/store/ui/ui.slice'
+import { store } from './configureStore'
+import { RESET_STATE, resetStateAction } from './rootReducer'
 
-const combinedReducer = combineReducers({
-	[productsApi.reducerPath]: productsApi.reducer,
-	[aboutApi.reducerPath]: aboutApi.reducer,
-	[articlesApi.reducerPath]: articlesApi.reducer,
+const persistor = persistStore(store)
 
-	[uiSlice.name]: uiSlice.reducer,
-	[cartSlice.name]: cartSlice.reducer,
-})
+export { persistor, RESET_STATE, resetStateAction, store }
 
-export const RESET_STATE = '!!!RESET_STATE!!!'
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const rootReducer = (state, action) => {
-	if (action.type === RESET_STATE) {
-		// eslint-disable-next-line no-param-reassign
-		state = undefined
-	}
-
-	return combinedReducer(state, action)
-}
-
-const persistConfig = {
-	key: 'root',
-	version: 1,
-	storage,
-	whitelist: ['ui'],
-}
-
-const persistedReducer = persistReducer(persistConfig, rootReducer)
-
-export const store = configureStore({
-	reducer: persistedReducer,
-	middleware: (getDefaultMiddleware) => {
-		return getDefaultMiddleware({
-			serializableCheck: {
-				ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-			},
-		}).concat(
-			productsApi.middleware,
-			aboutApi.middleware,
-			articlesApi.middleware
-		)
-	},
-})
-
-export const persistor = persistStore(store)
-
-// export type RootState = ReturnType<typeof store.getState>
-export type RootState = Omit<ReturnType<typeof store.getState>, '_persist'>
+export type RootState = Omit<ReturnType<typeof store.getState>, '_persist'> // omit to prevent loss of types on root level
 export type AppDispatch = typeof store.dispatch

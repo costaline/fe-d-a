@@ -7,12 +7,12 @@ import {
 	GetArticlesQueryVariables,
 } from '@@/generated/graphql.types'
 import { GET_ARTICLES_QUERY } from '@@/store/articles/GetArticle.query.gql'
-import { baseGraphqlQuery } from '@@/store/baseApi'
+import { baseGraphqlPrivateQueryWithReAuth } from '@@/store/baseGraphqlQuery'
 import GET_ARTICLE_QUERY from './GetArticle.query.graphql'
 
 export const articlesApi = createApi({
 	reducerPath: 'articles/api',
-	baseQuery: baseGraphqlQuery,
+	baseQuery: baseGraphqlPrivateQueryWithReAuth,
 	endpoints: (builder) => ({
 		getArticles: builder.query<GetArticlesQuery, GetArticlesQueryVariables>({
 			query: () => ({
