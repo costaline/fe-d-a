@@ -1,9 +1,10 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
 import { Mutex } from 'async-mutex'
 
-import { strapiAdapter } from '@@/store/adapter'
 import { authActions } from '@@/store/auth/auth.slice'
 import { RootState } from '@@/store/index'
+import { RefreshAdapterType } from '@@/store/refreshAdapter.types'
+import { strapiRefreshAdapter } from '@@/store/strapiRefreshAdapter'
 
 const mutex = new Mutex()
 
@@ -25,8 +26,7 @@ export const baseRestPrivateQuery = fetchBaseQuery({
 	},
 })
 
-/* TODO: refactor in OOP style */
-const adapter = strapiAdapter
+const refreshAdapter: RefreshAdapterType<'rest'> = strapiRefreshAdapter
 
 export const baseRestPrivateQueryWithReAuth: typeof baseRestPublicQuery =
 	async (args, api, extraOptions) => {
@@ -51,8 +51,8 @@ export const baseRestPrivateQueryWithReAuth: typeof baseRestPublicQuery =
 				try {
 					const refreshResult = await baseRestPublicQuery(
 						{
-							url: adapter.restUrl,
-							body: adapter.getRestBody(refreshToken),
+							url: refreshAdapter.rest.url,
+							body: refreshAdapter.rest.getBody(refreshToken),
 							method: 'POST',
 						},
 						api,
@@ -62,7 +62,7 @@ export const baseRestPrivateQueryWithReAuth: typeof baseRestPublicQuery =
 					if (refreshResult.data) {
 						api.dispatch(
 							authActions.updateCredentials(
-								adapter.getTokensFromRefreshData(refreshResult.data)
+								refreshAdapter.getTokensFromData(refreshResult.data)
 							)
 						)
 

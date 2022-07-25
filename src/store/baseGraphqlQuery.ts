@@ -1,9 +1,10 @@
 import { graphqlRequestBaseQuery } from '@rtk-query/graphql-request-base-query'
 import { Mutex } from 'async-mutex'
 
-import { strapiAdapter } from '@@/store/adapter'
 import { authActions } from '@@/store/auth/auth.slice'
 import { RootState } from '@@/store/index'
+import { RefreshAdapterType } from '@@/store/refreshAdapter.types'
+import { strapiRefreshAdapter } from '@@/store/strapiRefreshAdapter'
 
 const mutex = new Mutex()
 
@@ -24,8 +25,7 @@ export const baseGraphqlPrivateQuery = graphqlRequestBaseQuery({
 	},
 })
 
-/* TODO: refactor in OOP style */
-const adapter = strapiAdapter
+const refreshAdapter: RefreshAdapterType<'graphql'> = strapiRefreshAdapter
 
 export const baseGraphqlPrivateQueryWithReAuth: typeof baseGraphqlPublicQuery =
 	async (args, api, extraOptions) => {
@@ -52,8 +52,8 @@ export const baseGraphqlPrivateQueryWithReAuth: typeof baseGraphqlPublicQuery =
 				try {
 					const refreshResult = await baseGraphqlPublicQuery(
 						{
-							document: adapter.gqlDocument,
-							variables: adapter.getGqlVariables(refreshToken),
+							document: refreshAdapter.graphql.document,
+							variables: refreshAdapter.graphql.getVariables(refreshToken),
 						},
 						api,
 						extraOptions
@@ -62,7 +62,7 @@ export const baseGraphqlPrivateQueryWithReAuth: typeof baseGraphqlPublicQuery =
 					if (refreshResult.data) {
 						api.dispatch(
 							authActions.updateCredentials(
-								adapter.getTokensFromRefreshData(refreshResult.data)
+								refreshAdapter.getTokensFromData(refreshResult.data)
 							)
 						)
 
