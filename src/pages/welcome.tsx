@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
 
-import { AuthForm } from '@@/components/AuthForm'
-import { selectIsUser } from '@@/store/auth/auth.selectors'
-import { useAppSelector } from '@@/store/hooks'
+import { AuthForm } from '@@/features/forms'
+import { useAppSelector } from '@@/init/redux/hooks'
+import { selectIsUser } from '@@/store/redux/auth/auth.selectors'
 
 const WelcomePage: FC = () => {
 	const isUser = useAppSelector(selectIsUser)

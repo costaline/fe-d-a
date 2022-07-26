@@ -4,9 +4,9 @@ import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
 
-import { ErrorFallback } from '@@/components/ErrorFallback'
-import FileBasedRouting from '@@/features/FileBasedRouting/lazy'
-import { persistor, store } from '@@/store'
+import { ErrorFallback } from '@@/components'
+import FileBasedRouting from '@@/features/routing/FileBasedRouting/lazy'
+import { persistor, store } from '@@/init/redux'
 
 export const Root: FC = () => {
 	return (

@@ -1,4 +1,4 @@
-import './i18n'
+import './init/i18n'
 
 import OverlayScrollbars from 'overlayscrollbars'
 import { createRoot } from 'react-dom/client'

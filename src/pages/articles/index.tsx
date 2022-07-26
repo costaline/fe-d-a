@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react'
 
-import { withAuthGuard } from '@@/hocs/withAuthGuard'
-import { useGetArticlesQuery } from '@@/store/articles/articles.api'
+import { withAuthGuard } from '@@/hocs'
+import { useGetArticlesQuery } from '@@/store/redux/articles/articles.api'
 
 const ArticlesPage: FC = () => {
 	const { data, isLoading, error } = useGetArticlesQuery({})

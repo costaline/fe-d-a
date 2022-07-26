@@ -3,7 +3,7 @@ documents: "src/store/**/*.{graphql,gql,ts,tsx}"
 overwrite: true
 #watch: true
 generates:
-  src/generated/graphql.types.ts:
+  src/init/graphql/types.ts:
     plugins:
       - add:
           content: >
@@ -31,6 +31,6 @@ generates:
              */
       - typescript-operations:
           skipTypename: true
-  src/generated/schema.graphql:
+  src/init/graphql/schema.graphql:
     plugins:
       - schema-ast

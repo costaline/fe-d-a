@@ -1,10 +1,10 @@
 import { FC } from 'react'
 
-import { selectCart } from '@@/store/cart/cart.selectors'
-import { cartActions } from '@@/store/cart/cart.slice'
-import { useAppDispatch, useAppSelector } from '@@/store/hooks'
-import { useGetProductsQuery } from '@@/store/products/products.api'
-import { IProduct } from '@@/store/products/products.types'
+import { useAppDispatch, useAppSelector } from '@@/init/redux/hooks'
+import { selectCart } from '@@/store/redux/cart/cart.selectors'
+import { cartActions } from '@@/store/redux/cart/cart.slice'
+import { useGetProductsQuery } from '@@/store/redux/products/products.api'
+import { IProduct } from '@@/store/redux/products/products.types'
 
 const product: IProduct = { id: 42, title: 'Some title' }
 

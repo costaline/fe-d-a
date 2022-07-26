@@ -2,9 +2,9 @@ import { FC } from 'react'
 import { Navigate } from 'react-router-dom'
 
 import { validateToken } from '@@/helpers'
-import { selectAccessToken } from '@@/store/auth/auth.selectors'
-import { authActions } from '@@/store/auth/auth.slice'
-import { useAppDispatch, useAppSelector } from '@@/store/hooks'
+import { useAppDispatch, useAppSelector } from '@@/init/redux/hooks'
+import { selectAccessToken } from '@@/store/redux/auth/auth.selectors'
+import { authActions } from '@@/store/redux/auth/auth.slice'
 
 export const withAuthGuard = (Component: FC, redirectTo = '/') => {
 	return function WithAuthGuardComponent(props: any) {
