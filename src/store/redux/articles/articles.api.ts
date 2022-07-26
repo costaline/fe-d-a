@@ -1,12 +1,14 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
+import { baseGraphqlPrivateQueryWithReAuth } from '@@/init/redux/baseApi/baseGraphqlQuery'
+import {
+	GetArticlesQuery,
+	GetArticlesQueryVariables,
+} from '@@/store/redux/articles/GetArticle.query.gql.generated'
 import {
 	GetArticleQuery,
 	GetArticleQueryVariables,
-	GetArticlesQuery,
-	GetArticlesQueryVariables,
-} from '@@/init/graphql/types'
-import { baseGraphqlPrivateQueryWithReAuth } from '@@/init/redux/baseApi/baseGraphqlQuery'
+} from './GetArticle.query.generated'
 import { GET_ARTICLES_QUERY } from './GetArticle.query.gql'
 import GET_ARTICLE_QUERY from './GetArticle.query.graphql'
 
