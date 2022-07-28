@@ -1,6 +1,9 @@
+import { constantCase } from 'change-case'
+
 import { Config, LazyRouteParams, Options, SyncRouteParams } from '../types'
 import { getRouteValues } from './getRouteValues'
 import { lazyWithPreload } from './lazyWithPreload'
+import { templatePath } from './templatePath'
 
 /* eslint-disable prettier/prettier */
 export function createConfig (ctx: __WebpackModuleApi.RequireContext, options?: Options<true>): Config<LazyRouteParams>
@@ -12,8 +15,15 @@ export function createConfig ( ctx: __WebpackModuleApi.RequireContext, { pagesDi
 	const routes = ctx.keys().reduce((acc, path) => {
 		const { routePath, filePath } = getRouteValues(path)
 
+		let name = constantCase(routePath)
+
+		if (routePath === '/') {
+			name = 'HOME'
+		}
+
 		if (routePath === '/404') {
 			is404 = true
+			name = 'NOT_FOUND'
 		}
 
 		let additional = {}
@@ -37,9 +47,10 @@ export function createConfig ( ctx: __WebpackModuleApi.RequireContext, { pagesDi
 
 		return {
 			...acc,
-			[routePath]: {
+			[name]: {
 				routePath,
 				filePath,
+				templatePath,
 				...additional,
 			},
 		}
