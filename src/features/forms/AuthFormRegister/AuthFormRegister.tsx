@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { FC, useEffect } from 'react'
 import { css } from '@emotion/react'
 import { useForm } from 'react-hook-form'
@@ -23,12 +22,12 @@ export const AuthFormRegister: FC<AuthFormRegisterProps> = ({
 		register,
 	} = useForm<RegisterBody>({ mode: 'onBlur' })
 
-	const onSubmit = (formData: RegisterBody) => {
-		callRegister(formData)
+	const onSubmit = (formData: RegisterBody): void => {
+		void callRegister(formData)
 	}
 
 	useEffect(() => {
-		if (!(isSuccess && data)) return
+		if (!(isSuccess && data?.jwt)) return
 
 		onSubmitHandler(data)
 	}, [data, isSuccess, onSubmitHandler])
@@ -66,7 +65,7 @@ export const AuthFormRegister: FC<AuthFormRegisterProps> = ({
 						},
 					})}
 				/>
-				<span>{errors.username?.message || null}</span>
+				<span>{errors.username?.message ?? null}</span>
 			</label>
 
 			<label>
@@ -84,7 +83,7 @@ export const AuthFormRegister: FC<AuthFormRegisterProps> = ({
 						},
 					})}
 				/>
-				<span>{errors.email?.message || null}</span>
+				<span>{errors.email?.message ?? null}</span>
 			</label>
 
 			<label>
@@ -102,7 +101,7 @@ export const AuthFormRegister: FC<AuthFormRegisterProps> = ({
 						},
 					})}
 				/>
-				<span>{errors.password?.message || null}</span>
+				<span>{errors.password?.message ?? null}</span>
 			</label>
 
 			{isError && <span>{getErrorMessage(error)}</span>}

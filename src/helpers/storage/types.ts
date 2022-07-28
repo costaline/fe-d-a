@@ -8,5 +8,5 @@ export interface BaseStorage {
 
 export interface Transforms {
 	keyTransforms?: Array<Exclude<TransformsType, 'crypt'>>
-	valueTransforms?: Array<TransformsType>
+	valueTransforms?: TransformsType[]
 }

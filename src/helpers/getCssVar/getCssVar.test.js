@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { getCssVar } from './getCssVar'
 
-describe('CSS Var helper', () => {
+describe('css var helper', () => {
 	let element
 
 	const varName = '--black'
@@ -16,9 +16,6 @@ describe('CSS Var helper', () => {
 
 		console.warn.mockImplementation(() => undefined)
 		console.error.mockImplementation(() => undefined)
-
-		expect(() => getCssVar('red')).toThrow()
-		expect(() => getCssVar()).toThrow()
 	})
 
 	afterAll(() => {
@@ -26,35 +23,38 @@ describe('CSS Var helper', () => {
 		console.error.mockRestore()
 	})
 
-	describe('Check property value:', () => {
-		test('value is not exist', () => {
-			expect(getCssVar('--foo-bar-baz', '', element)).toEqual('')
+	describe('check property value:', () => {
+		it('value is not exist', () => {
+			expect(getCssVar('--foo-bar-baz', '', element)).toBe('')
 		})
 
-		test('value is not exist, but there is a fallback', () => {
+		it('value is not exist, but there is a fallback', () => {
 			const fallbackValue = 'red'
 
-			expect(getCssVar('--foo-bar-baz', fallbackValue, element)).toEqual(
+			expect(getCssVar('--foo-bar-baz', fallbackValue, element)).toStrictEqual(
 				fallbackValue
 			)
 		})
 
-		test('value is exist', () => {
-			expect(getCssVar(varName, '', element)).toEqual(varValue)
+		it('value is exist', () => {
+			expect(getCssVar(varName, '', element)).toStrictEqual(varValue)
 		})
 	})
 
-	describe('Check property name:', () => {
-		test('name is valid', () => {
+	describe('check property name:', () => {
+		it('name is valid', () => {
 			expect(() => getCssVar('--red')).not.toThrow()
 		})
 
-		test('name is invalid', () => {
+		it('name is invalid', () => {
 			console.warn.mockRestore()
 			console.error.mockRestore()
+
+			expect(() => getCssVar('red')).toThrow()
+			expect(() => getCssVar()).toThrow()
 		})
 
-		test('name type is invalid', () => {
+		it('name type is invalid', () => {
 			jest.spyOn(console, 'warn')
 			jest.spyOn(console, 'error')
 

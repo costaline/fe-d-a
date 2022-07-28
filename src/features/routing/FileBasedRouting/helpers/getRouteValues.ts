@@ -1,4 +1,6 @@
-export const getRouteValues = (filePath: string) => {
+export const getRouteValues = (
+	filePath: string
+): { routePath: string; filePath: string } => {
 	const [_, relativePath, ext] =
 		filePath.match(/\.\/(.+)\.(js|jsx|tsx)$/i) || []
 

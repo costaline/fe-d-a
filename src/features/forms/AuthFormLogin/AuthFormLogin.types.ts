@@ -1,5 +1,5 @@
 import { LoginResponse } from '@@/store/redux/auth/auth.types'
 
-export type AuthFormLoginProps = {
+export interface AuthFormLoginProps {
 	onSubmitHandler: (data: LoginResponse) => void
 }

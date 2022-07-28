@@ -1,5 +1,5 @@
 import { RegisterResponse } from '@@/store/redux/auth/auth.types'
 
-export type AuthFormRegisterProps = {
+export interface AuthFormRegisterProps {
 	onSubmitHandler: (data: RegisterResponse) => void
 }

@@ -33,8 +33,7 @@ export const baseGraphqlPrivateQueryWithReAuth: typeof baseGraphqlPublicQuery =
 
 		let result = await baseGraphqlPrivateQuery(args, api, extraOptions)
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
+		// @ts-expect-error status like rest
 		if (result?.error?.status === 401) {
 			const { refreshToken } = (api.getState() as RootState).auth
 
@@ -59,10 +58,11 @@ export const baseGraphqlPrivateQueryWithReAuth: typeof baseGraphqlPublicQuery =
 						extraOptions
 					)
 
-					if (refreshResult.data) {
+					// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+					if (refreshResult) {
 						api.dispatch(
 							authActions.updateCredentials(
-								refreshAdapter.getTokensFromData(refreshResult.data)
+								refreshAdapter.getTokensFromData(refreshResult)
 							)
 						)
 

@@ -16,7 +16,7 @@ export const withAuthGuard = (Component: FC, redirectTo = '/') => {
 			return <Navigate replace to={redirectTo} />
 		}
 
-		if (!validateToken(accessToken!)) {
+		if (!validateToken(accessToken)) {
 			requestAnimationFrame(() => {
 				dispatch(authActions.logout())
 			})

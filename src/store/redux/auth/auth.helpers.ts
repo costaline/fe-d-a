@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { CookieStorage, createStorage, LocalStorage } from '@@/helpers/storage'
 
 const cs = createStorage(CookieStorage, {
@@ -18,14 +19,15 @@ export const persistUser = {
 	},
 
 	get: <D>(): D | null => {
-		const value = persisted.reduce<D>((res, storage) => {
+		const value = persisted.reduce<D | {}>((res, storage) => {
 			return {
 				...res,
+				// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
 				...(storage.get() || {}),
 			}
-		}, {} as D)
+		}, {})
 
-		return Object.keys(value).length ? value : null
+		return Object.keys(value).length ? (value as D) : null
 	},
 
 	remove: (): void => {

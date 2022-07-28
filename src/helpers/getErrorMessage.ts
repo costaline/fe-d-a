@@ -26,5 +26,6 @@ export const getErrorMessage = (error: any): string => {
 		return error.error.message
 	}
 
-	return `${error.status}`
+	// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+	return `${error?.status ?? 'Something went wrong'}`
 }

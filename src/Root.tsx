@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import { ErrorFallback } from '@@/components'
-import FileBasedRouting from '@@/features/routing/FileBasedRouting/lazy'
+import { FileBasedRouting } from '@@/features/routing/FileBasedRouting/lazy'
 import { persistor, store } from '@@/init/redux'
 
 export const Root: FC = () => {

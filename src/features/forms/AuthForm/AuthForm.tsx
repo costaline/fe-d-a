@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { createElement, FC, useState } from 'react'
 
 import { useAppDispatch } from '@@/init/redux/hooks'
@@ -22,14 +21,14 @@ const forms: Forms = {
 	register: AuthFormRegister,
 }
 
-export const AuthForm = () => {
+export const AuthForm: FC = () => {
 	const [authType, setAuthType] = useState<AuthVariants>('login')
 
 	const [isRemember, setIsRemember] = useState(false)
 
 	const dispatch = useAppDispatch()
 
-	const onSubmitHandler = (data: AuthResponse) => {
+	const onSubmitHandler = (data: AuthResponse): void => {
 		dispatch(
 			authActions.setCredentials({
 				token: data.jwt,

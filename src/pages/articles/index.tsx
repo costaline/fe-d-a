@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { FC, useEffect } from 'react'
 
 import { withAuthGuard } from '@@/hocs'

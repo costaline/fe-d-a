@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { FC, useEffect } from 'react'
 import { css } from '@emotion/react'
 import { useForm } from 'react-hook-form'
@@ -18,12 +17,12 @@ export const AuthFormLogin: FC<AuthFormLoginProps> = ({ onSubmitHandler }) => {
 		register,
 	} = useForm<LoginBody>({ mode: 'onBlur' })
 
-	const onSubmit = (formData: LoginBody) => {
-		callLogin(formData)
+	const onSubmit = (formData: LoginBody): void => {
+		void callLogin(formData)
 	}
 
 	useEffect(() => {
-		if (!(isSuccess && data)) return
+		if (!(isSuccess && data?.jwt)) return
 
 		onSubmitHandler(data)
 	}, [data, isSuccess, onSubmitHandler])
@@ -61,7 +60,7 @@ export const AuthFormLogin: FC<AuthFormLoginProps> = ({ onSubmitHandler }) => {
 						},
 					})}
 				/>
-				<span>{errors.identifier?.message || null}</span>
+				<span>{errors.identifier?.message ?? null}</span>
 			</label>
 
 			<label>
@@ -79,7 +78,7 @@ export const AuthFormLogin: FC<AuthFormLoginProps> = ({ onSubmitHandler }) => {
 						},
 					})}
 				/>
-				<span>{errors.password?.message || null}</span>
+				<span>{errors.password?.message ?? null}</span>
 			</label>
 
 			{isError && <span>{getErrorMessage(error)}</span>}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { parse, stringify } from './helpers'
 import { transforms as availableTransforms } from './transforms'
 import { BaseStorage, Transforms } from './types'
@@ -7,6 +8,7 @@ const defaultTransforms: Transforms = {
 	valueTransforms: [],
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const createStorage = (Storage: BaseStorage, transforms: Transforms) => {
 	const { keyTransforms, valueTransforms } = {
 		...defaultTransforms,

@@ -59,10 +59,11 @@ export const baseRestPrivateQueryWithReAuth: typeof baseRestPublicQuery =
 						extraOptions
 					)
 
-					if (refreshResult.data) {
+					// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+					if (refreshResult) {
 						api.dispatch(
 							authActions.updateCredentials(
-								refreshAdapter.getTokensFromData(refreshResult.data)
+								refreshAdapter.getTokensFromData(refreshResult)
 							)
 						)
 

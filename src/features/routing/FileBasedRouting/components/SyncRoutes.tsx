@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { SyncRoutesConfig } from '../types'
 
 export const createSyncRoutes = (routes: SyncRoutesConfig, is404: boolean) => {
-	return (): JSX.Element => {
+	return function SyncRoutes(): JSX.Element {
 		return (
 			<Routes>
 				{Object.values(routes).map(({ routePath, Component }) => (

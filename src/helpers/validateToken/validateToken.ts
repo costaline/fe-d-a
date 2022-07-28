@@ -1,6 +1,6 @@
 import jwtDecode, { JwtPayload } from 'jwt-decode'
 
-export const validateToken = (token: string) => {
+export const validateToken = (token: string): boolean => {
 	try {
 		const { exp } = jwtDecode<Pick<Required<JwtPayload>, 'exp'>>(token)
 

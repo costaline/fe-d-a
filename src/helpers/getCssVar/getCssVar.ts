@@ -4,7 +4,7 @@ export const getCssVar = (
 	name: string,
 	fallback = '',
 	element = document.documentElement
-) => {
+): string => {
 	if (!name) throw new Error('Empty variable name')
 	if (typeof name !== 'string') throw new Error('Invalid variable type')
 	if (!name?.startsWith('--')) throw new Error('Invalid variable name')

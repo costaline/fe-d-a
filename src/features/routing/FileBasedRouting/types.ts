@@ -19,12 +19,12 @@ export type RoutesConfig<R> = Record<string, R>
 export type LazyRoutesConfig = RoutesConfig<LazyRouteParams>
 export type SyncRoutesConfig = RoutesConfig<SyncRouteParams>
 
-export type Options<L = boolean> = {
+export interface Options<L = boolean> {
 	pagesDir?: string
 	isLazy?: L
 }
 
-export type Config<R = LazyRouteParams | SyncRouteParams> = {
+export interface Config<R = LazyRouteParams | SyncRouteParams> {
 	is404: boolean
 	routes: RoutesConfig<R>
 }

@@ -40,15 +40,16 @@ const combinedReducer = combineReducers({
  */
 export const RESET_STATE = '!!!RESET_STATE!!!'
 
-export const resetStateAction = () => ({
-	type: RESET_STATE,
-})
+export const resetStateAction = (): { readonly type: typeof RESET_STATE } => {
+	return {
+		type: RESET_STATE,
+	} as const
+}
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-export const rootReducer = (state, action) => {
+// @ts-expect-error reset state
+// eslint-disable-next-line prettier/prettier
+export const rootReducer = (state, action): ReturnType<typeof combinedReducer> => {
 	if (action.type === RESET_STATE) {
-		// eslint-disable-next-line no-param-reassign
 		state = undefined
 	}
 

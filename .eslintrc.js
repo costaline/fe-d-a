@@ -3,66 +3,46 @@ module.exports = {
 		browser: true,
 		es2021: true,
 		jest: true,
-		node: true,
 	},
 
 	parser: '@typescript-eslint/parser',
 
-	parserOptions: {
-		ecmaFeatures: {
-			jsx: true,
-		},
-		ecmaVersion: 'latest',
-		sourceType: 'module',
-	},
-
-	extends: [
-		'plugin:react/recommended',
-		'plugin:react-hooks/recommended',
-		'airbnb',
-		'plugin:@typescript-eslint/recommended',
-		'plugin:prettier/recommended',
-	],
-
-	plugins: ['import', 'react', '@typescript-eslint', 'simple-import-sort'],
+	parserOptions: {},
 
 	settings: {
+		'import/parsers': {
+			'@typescript-eslint/parser': ['.js', '.jsx', '.ts', '.tsx'],
+		},
+
 		'import/resolver': {
 			typescript: {
 				alwaysTryTypes: true,
 			},
 		},
+
+		'react': {
+			version: 'detect',
+		},
 	},
 
+	extends: [
+		'standard-with-typescript',
+		'plugin:react/recommended',
+		'plugin:react/jsx-runtime',
+		'plugin:react-hooks/recommended',
+		'plugin:jsx-a11y/recommended',
+		'plugin:import/recommended',
+		'plugin:prettier/recommended',
+	],
+
+	plugins: ['simple-import-sort'],
+
 	rules: {
-		'arrow-body-style': 'off',
 		'default-param-last': 'warn',
 		'dot-notation': 'off',
-		'global-require': 'off',
 		'lines-between-class-members': ['warn', 'always'],
 		'no-console': 'warn',
-		'no-param-reassign': [
-			'warn',
-			{ props: true, ignorePropertyModificationsForRegex: ['^draft'] },
-		],
-		'no-restricted-exports': 'off',
-		'no-underscore-dangle': [
-			'warn',
-			{
-				allowAfterThis: true,
-				allowAfterSuper: true,
-			},
-		],
-		'no-unused-vars': [
-			'warn',
-			{
-				varsIgnorePattern: '^_$',
-				argsIgnorePattern: '^_$',
-			},
-		],
-		'no-use-before-define': 'off',
-		'object-curly-newline': 'off',
-		'object-curly-spacing': ['warn', 'always'],
+		'no-useless-escape': 'off',
 		'object-shorthand': ['warn', 'properties'],
 		'padded-blocks': ['warn', 'never'],
 		'padding-line-between-statements': [
@@ -75,9 +55,10 @@ module.exports = {
 				next: ['const', 'let', 'var'],
 			},
 		],
+		'prefer-const': 'warn',
 		'spaced-comment': 'warn',
 
-		'import/export': 'off',
+		'import/export': 'warn',
 		'import/extensions': [
 			'error',
 			'ignorePackages',
@@ -89,16 +70,11 @@ module.exports = {
 			},
 		],
 		'import/newline-after-import': 'warn',
-		'import/no-cycle': 'off',
 		'import/no-unresolved': 'error',
-		'import/order': 'warn',
-		'import/prefer-default-export': 'off',
-
-		'jsx-a11y/click-events-have-key-events': 'warn',
-		'jsx-a11y/no-noninteractive-element-interactions': 'warn',
 
 		'prettier/prettier': 'warn',
 
+		'react/button-has-type': 'warn',
 		'react/destructuring-assignment': [
 			'warn',
 			'always',
@@ -106,7 +82,6 @@ module.exports = {
 				ignoreClassFields: true,
 			},
 		],
-		'react/forbid-prop-types': ['warn', { forbid: ['any', 'array'] }],
 		'react/function-component-definition': 'off',
 		'react/jsx-curly-brace-presence': ['warn', 'never'],
 		'react/jsx-filename-extension': [
@@ -128,11 +103,7 @@ module.exports = {
 				reservedFirst: true,
 			},
 		],
-		'react/jsx-uses-react': 'warn',
 		'react/jsx-uses-vars': 'warn',
-		'react/no-unused-prop-types': 'warn',
-		'react/react-in-jsx-scope': 'off',
-		'react/require-default-props': 'off',
 		'react/self-closing-comp': ['warn', { component: true, html: true }],
 
 		'simple-import-sort/exports': 'warn',
@@ -183,14 +154,23 @@ module.exports = {
 
 	overrides: [
 		{
-			files: ['**/*.js', '**/*.jsx'],
-
-			extends: ['./.eslintrc.js.js'],
+			files: ['*.js', '*.jsx'],
+			extends: ['./.eslintrc.javascript.js'],
 		},
-		{
-			files: ['**/*.ts', '**/*.tsx'],
 
-			extends: ['./.eslintrc.ts.js'],
+		{
+			files: ['*.ts', '*.tsx'],
+			extends: ['./.eslintrc.typescript.js'],
+		},
+
+		{
+			files: ['*.test.*', '*.spec.*'],
+			extends: ['./.eslintrc.tests.js'],
+		},
+
+		{
+			files: ['*.stories.*', '*.story.*'],
+			extends: ['./.eslintrc.storybook.js'],
 		},
 	],
 }

@@ -1,6 +1,7 @@
 import { createLazyRoutes } from '../components/LazyRoutes'
 import { createConfig } from '../helpers'
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const factory = (
 	ctx: __WebpackModuleApi.RequireContext,
 	pagesDir?: string

@@ -9,12 +9,13 @@ interface Props {
 }
 
 export const createLazyRoutes = (routes: LazyRoutesConfig, is404: boolean) => {
-	return ({ preloaded, fallback = null }: Props): JSX.Element => {
+	return function LazyRoutes({
+		preloaded,
+		fallback = null,
+	}: Props): JSX.Element {
 		useEffect(() => {
-			if (!preloaded) return
-
 			if (typeof preloaded === 'boolean' && preloaded) {
-				Object.values(routes).forEach(({ preload }) => preload())
+				Object.values(routes).forEach(async ({ preload }) => await preload())
 
 				return
 			}
@@ -22,7 +23,7 @@ export const createLazyRoutes = (routes: LazyRoutesConfig, is404: boolean) => {
 			if (Array.isArray(preloaded) && preloaded.length) {
 				Object.values(routes).forEach(({ preload, routePath }) => {
 					if (preloaded.some((p) => p === routePath)) {
-						preload()
+						void preload()
 					}
 				})
 
@@ -30,7 +31,7 @@ export const createLazyRoutes = (routes: LazyRoutesConfig, is404: boolean) => {
 			}
 
 			// eslint-disable-next-line no-console
-			console.warn('Unexpected value')
+			console.warn('Unexpected preloaded value: ', preloaded)
 		}, [preloaded])
 
 		return (

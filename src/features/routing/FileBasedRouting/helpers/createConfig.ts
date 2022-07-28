@@ -19,10 +19,12 @@ export function createConfig ( ctx: __WebpackModuleApi.RequireContext, { pagesDi
 		let additional = {}
 
 		if (isLazy) {
+			// eslint-disable-next-line @typescript-eslint/promise-function-async
 			additional = lazyWithPreload(() => import(`/src/${pagesDir}/${filePath}`))
 		} else {
 			const Component = ctx(path)?.default
 
+			// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
 			if (!Component) {
 				// eslint-disable-next-line no-console
 				console.log(`Component "${filePath}" not found`)
