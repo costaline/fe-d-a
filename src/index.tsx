@@ -1,5 +1,6 @@
 import './init/i18n'
 
+import { disableReactDevTools } from '@fvilers/disable-react-devtools'
 import OverlayScrollbars from 'overlayscrollbars'
 import { createRoot } from 'react-dom/client'
 
@@ -14,6 +15,10 @@ import 'overlayscrollbars/css/OverlayScrollbars.css'
 import './assets/fonts/index.scss'
 import './assets/styles/variables/index.styl'
 import './assets/styles/global.scss'
+
+if (process.env.REACT_APP_REACT_DEVTOOLS !== 'true') {
+	disableReactDevTools()
+}
 
 const root = createRoot(document.getElementById('root') as HTMLElement)
 
