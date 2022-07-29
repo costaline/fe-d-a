@@ -20,7 +20,7 @@ export const store = configureStore({
 			},
 		}).concat(...apiMiddlewares)
 	},
-	devTools: process.env.REACT_APP_REDUX_DEVTOOLS === 'true',
+	devTools: process.env.REACT_APP_REDUX_DEVTOOLS === 'enabled',
 })
 
 export const persistor = persistStore(store)

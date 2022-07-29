@@ -4,8 +4,8 @@ env:
   CI: false
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  REACT_APP_REDUX_DEVTOOLS: ${{ 'true' }}
-  REACT_APP_REACT_DEVTOOLS: ${{ 'true' }}
+  REACT_APP_REDUX_DEVTOOLS: enabled
+  REACT_APP_REACT_DEVTOOLS: enabled
 
 on:
   workflow_run:

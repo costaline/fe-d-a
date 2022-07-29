@@ -16,7 +16,7 @@ import './assets/fonts/index.scss'
 import './assets/styles/variables/index.styl'
 import './assets/styles/global.scss'
 
-if (process.env.REACT_APP_REACT_DEVTOOLS !== 'true') {
+if (process.env.REACT_APP_REACT_DEVTOOLS !== 'enabled') {
 	disableReactDevTools()
 }
 
