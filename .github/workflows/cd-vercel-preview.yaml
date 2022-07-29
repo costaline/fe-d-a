@@ -1,6 +1,7 @@
 name: CD Vercel Preview
 
 env:
+  CI: false
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   REACT_APP_REDUX_DEVTOOLS: 'true'

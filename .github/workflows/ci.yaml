@@ -1,5 +1,8 @@
 name: CI
 
+env:
+  CI: false
+
 on:
   push:
     branches:
