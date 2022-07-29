@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "craco start",
+    "prebuild": "npx --yes browserslist@latest --update-db",
     "build": "craco build",
     "graphql:codegen": "graphql-codegen --config codegen.yml",
     "prettier:check": "prettier --ignore-unknown --check src",
