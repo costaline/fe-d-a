@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+    tags:
+      - v*
+  pull_request:
+    branches:
+      - master
+      - develop
+
+jobs:
+  main:
+    name: Checks
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 16.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Update Browserslist
+        run: npx --yes browserslist@latest --update-db
+
+      - name: Check Eslint
+        run: yarn eslint:check
+
+      - name: Check Stylelint
+        run: |
+          yarn stylelint:css:check
+          yarn stylelint:js:check
+
+      - name: Check Tests
+        run: yarn test --watchAll=false --passWithNoTests
+
+      - name: Check Build
+        run: yarn build
