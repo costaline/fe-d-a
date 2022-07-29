@@ -11,7 +11,7 @@ module.exports = {
 
 	rules: {
 		'declaration-block-trailing-semicolon': 'always',
-		'no-missing-end-of-source-newline': false,
+		'no-missing-end-of-source-newline': null,
 		'value-keyword-case': null,
 	},
 }
