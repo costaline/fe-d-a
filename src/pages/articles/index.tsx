@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { FC, useEffect } from 'react'
 
-import { withAuthGuard } from '@@/hocs'
+import { withAuthCheck } from '@@/hocs'
 import { useGetArticlesQuery } from '@@/store/redux/articles/articles.api'
 
 const ArticlesPage: FC = () => {
@@ -20,4 +20,4 @@ const ArticlesPage: FC = () => {
 	)
 }
 
-export default withAuthGuard(ArticlesPage, '/')
+export default withAuthCheck({ redirectTo: '/' })(ArticlesPage)

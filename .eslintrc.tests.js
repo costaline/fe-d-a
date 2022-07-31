@@ -11,6 +11,7 @@ module.exports = {
 			'warn',
 			{ onlyFunctionsWithAsyncKeyword: true },
 		],
+		'jest/prefer-called-with': 'warn',
 		'jest/prefer-lowercase-title': 'warn',
 		'jest/require-to-throw-message': 'off',
 	},

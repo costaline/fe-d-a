@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { Link } from 'react-router-dom'
 
 import { AuthForm } from '@@/features/forms'
+import { withAuthCheck } from '@@/hocs'
 import { useAppSelector } from '@@/init/redux/hooks'
 import { selectIsUser } from '@@/store/redux/auth/auth.selectors'
 
@@ -19,4 +20,6 @@ const WelcomePage: FC = () => {
 	)
 }
 
-export default WelcomePage
+export default withAuthCheck({ redirectTo: '/', isPublicOnly: true })(
+	WelcomePage
+)
