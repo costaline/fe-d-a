@@ -7,6 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { ErrorFallback } from '@@/components'
 import { FileBasedRouting } from '@@/features/routing/FileBasedRouting/lazy'
 import { persistor, store } from '@@/init/redux'
+import { MainLayout } from '@@/layouts'
 
 export const Root: FC = () => {
 	return (
@@ -15,7 +16,9 @@ export const Root: FC = () => {
 				<Provider store={store}>
 					<PersistGate loading={null} persistor={persistor}>
 						<BrowserRouter>
-							<FileBasedRouting />
+							<MainLayout>
+								<FileBasedRouting />
+							</MainLayout>
 						</BrowserRouter>
 					</PersistGate>
 				</Provider>

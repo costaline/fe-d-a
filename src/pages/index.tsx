@@ -1,6 +1,8 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { withAuthCheck } from '@@/hocs'
+
 const RootPage: FC = () => {
 	const { t } = useTranslation()
 
@@ -11,4 +13,4 @@ const RootPage: FC = () => {
 	)
 }
 
-export default RootPage
+export default withAuthCheck({ redirectTo: '/welcome' })(RootPage)
