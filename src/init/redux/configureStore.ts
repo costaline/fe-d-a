@@ -10,6 +10,7 @@ import {
 } from 'redux-persist'
 
 import { apiMiddlewares, persistedReducer } from '@@/store/redux'
+import { listenerMiddleware } from './listenerMiddleware'
 
 export const store = configureStore({
 	reducer: persistedReducer,
@@ -18,7 +19,7 @@ export const store = configureStore({
 			serializableCheck: {
 				ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
 			},
-		}).concat(...apiMiddlewares)
+		}).concat(...apiMiddlewares, listenerMiddleware.middleware)
 	},
 	devTools: process.env.REACT_APP_REDUX_DEVTOOLS === 'enabled',
 })

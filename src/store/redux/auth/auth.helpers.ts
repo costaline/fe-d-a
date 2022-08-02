@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { CookieStorage, createStorage, LocalStorage } from '@@/helpers/storage'
+import { AuthState } from '@@/store/redux/auth/auth.types'
 
 const cs = createStorage(CookieStorage, {
 	keyTransforms: ['code'],
@@ -14,20 +15,19 @@ const ls = createStorage(LocalStorage, {
 const persisted = [cs, ls]
 
 export const persistUser = {
-	save: <D extends { isRemember: boolean }>(data: D): void => {
+	save: (data: AuthState): void => {
 		persisted[data.isRemember ? 1 : 0].save(data)
 	},
 
-	get: <D>(): D | null => {
-		const value = persisted.reduce<D | {}>((res, storage) => {
+	get: (): AuthState | null => {
+		const value = persisted.reduce<AuthState | {}>((res, storage) => {
 			return {
 				...res,
-				// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
 				...(storage.get() || {}),
 			}
 		}, {})
 
-		return Object.keys(value).length ? (value as D) : null
+		return Object.keys(value).length ? (value as AuthState) : null
 	},
 
 	remove: (): void => {
