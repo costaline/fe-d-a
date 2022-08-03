@@ -1,4 +1,4 @@
-import { combineReducers } from '@reduxjs/toolkit'
+import { combineReducers, createAction } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
@@ -38,18 +38,12 @@ const combinedReducer = combineReducers({
 /**
  *
  */
-export const RESET_STATE = '!!!RESET_STATE!!!'
-
-export const resetStateAction = (): { readonly type: typeof RESET_STATE } => {
-	return {
-		type: RESET_STATE,
-	} as const
-}
+export const resetStoreAction = createAction('!!!RESET_STORE!!!')
 
 // @ts-expect-error reset state
 // eslint-disable-next-line prettier/prettier
 export const rootReducer = (state, action): ReturnType<typeof combinedReducer> => {
-	if (action.type === RESET_STATE) {
+	if (action.type === resetStoreAction.type) {
 		state = undefined
 	}
 

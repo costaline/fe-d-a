@@ -1,6 +1,7 @@
 import { PERSIST } from 'redux-persist'
 
 import type { AddListener } from '@@/init/redux/types'
+import { resetStoreAction } from '@@/store/redux'
 import { persistUser } from './auth.helpers'
 import { authActions } from './auth.slice'
 
@@ -46,8 +47,10 @@ const addLogoutListener: AddListener = (startListener) => {
 	startListener({
 		actionCreator: authActions.logout,
 
-		effect: () => {
+		effect: (_, { dispatch }) => {
 			persistUser.remove()
+
+			dispatch(resetStoreAction())
 		},
 	})
 }
