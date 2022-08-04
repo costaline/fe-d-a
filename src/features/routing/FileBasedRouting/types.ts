@@ -21,6 +21,7 @@ export interface RouteParams {
 	 * // returns /articles/foo/authors/bar
 	 */
 	templatePath: TemplatePath
+	Component: ComponentType
 }
 
 export interface LazyRouteParams extends RouteParams {

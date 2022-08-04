@@ -1,7 +1,7 @@
 import { ReactNode, Suspense, useEffect } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
 
-import { LazyRoutesConfig } from '../types'
+import type { LazyRoutesConfig } from '../types'
+import { BaseRoutes } from './BaseRoutes'
 
 interface Props {
 	fallback?: ReactNode
@@ -14,6 +14,9 @@ export const createLazyRoutes = (routes: LazyRoutesConfig, is404: boolean) => {
 		fallback = null,
 	}: Props): JSX.Element {
 		useEffect(() => {
+			// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+			if (!preloaded) return
+
 			if (typeof preloaded === 'boolean' && preloaded) {
 				Object.values(routes).forEach(async ({ preload }) => await preload())
 
@@ -36,13 +39,7 @@ export const createLazyRoutes = (routes: LazyRoutesConfig, is404: boolean) => {
 
 		return (
 			<Suspense fallback={fallback}>
-				<Routes>
-					{Object.values(routes).map(({ routePath, Component }) => (
-						<Route key={routePath} element={<Component />} path={routePath} />
-					))}
-
-					{is404 && <Route element={<Navigate replace to="/404" />} path="*" />}
-				</Routes>
+				<BaseRoutes<LazyRoutesConfig> is404={is404} routes={routes} />
 			</Suspense>
 		)
 	}

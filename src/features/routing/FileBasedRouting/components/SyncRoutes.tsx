@@ -1,17 +1,8 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
-
-import { SyncRoutesConfig } from '../types'
+import type { SyncRoutesConfig } from '../types'
+import { BaseRoutes } from './BaseRoutes'
 
 export const createSyncRoutes = (routes: SyncRoutesConfig, is404: boolean) => {
 	return function SyncRoutes(): JSX.Element {
-		return (
-			<Routes>
-				{Object.values(routes).map(({ routePath, Component }) => (
-					<Route key={routePath} element={<Component />} path={routePath} />
-				))}
-
-				{is404 && <Route element={<Navigate replace to="/404" />} path="*" />}
-			</Routes>
-		)
+		return <BaseRoutes<SyncRoutesConfig> is404={is404} routes={routes} />
 	}
 }
