@@ -17,6 +17,11 @@
     "test": "craco test",
     "eject": "react-scripts eject"
   },
+  "jest": {
+    "snapshotSerializers": [
+      "@emotion/jest/serializer"
+    ]
+  },
   "dependencies": {
     "@craco/craco": "^7.0.0-alpha.7",
     "@emotion/react": "^11.9.3",
@@ -70,6 +75,7 @@
   },
   "devDependencies": {
     "@emotion/babel-preset-css-prop": "^11.2.0",
+    "@emotion/jest": "^11.10.0",
     "@graphql-codegen/cli": "2.8.1",
     "@graphql-codegen/near-operation-file-preset": "^2.4.0",
     "@graphql-codegen/schema-ast": "^2.5.0",

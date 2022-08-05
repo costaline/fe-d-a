@@ -1,3 +1,6 @@
 {
-  "root": "ROOT"
+  "root": "ROOT",
+	"404": {
+		"errorMessage": "Page not found"
+	}
 }
