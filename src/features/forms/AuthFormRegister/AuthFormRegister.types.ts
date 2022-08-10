@@ -1,5 +1,4 @@
-import { RegisterResponse } from '@@/store/redux/auth/auth.types'
+import type { RegisterResponse } from '@@/store/redux/auth/auth.types'
+import type { AuthFormProps } from '../AuthForm/AuthForm.types'
 
-export interface AuthFormRegisterProps {
-	onSubmitHandler: (data: RegisterResponse) => void
-}
+export type AuthFormRegisterProps = AuthFormProps<RegisterResponse>

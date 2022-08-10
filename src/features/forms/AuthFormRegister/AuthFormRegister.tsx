@@ -1,26 +1,34 @@
 import { FC, useEffect } from 'react'
-import { css } from '@emotion/react'
-import { useForm } from 'react-hook-form'
+import { Box, Button, FormHelperText, TextField } from '@mui/material'
+import { Controller, useForm } from 'react-hook-form'
 
 import { getErrorMessage } from '@@/helpers/getErrorMessage'
 import { useRegisterMutation } from '@@/store/redux/auth/auth.api'
 import { RegisterBody } from '@@/store/redux/auth/auth.types'
-import { AuthFormRegisterProps } from './AuthFormRegister.types'
+import type { AuthFormRegisterProps } from './AuthFormRegister.types'
 
 const emailRegexp =
 	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 export const AuthFormRegister: FC<AuthFormRegisterProps> = ({
-	onSubmitHandler,
+	onSuccessHandler,
 }) => {
 	const [callRegister, { data, isLoading, error, isError, isSuccess }] =
 		useRegisterMutation()
 
 	const {
 		handleSubmit,
-		formState: { isValid, errors },
-		register,
-	} = useForm<RegisterBody>({ mode: 'onBlur' })
+		control,
+		clearErrors,
+		formState: { isValid, errors, isDirty },
+	} = useForm<RegisterBody>({
+		mode: 'all',
+		defaultValues: {
+			email: '',
+			password: '',
+			username: '',
+		},
+	})
 
 	const onSubmit = (formData: RegisterBody): void => {
 		void callRegister(formData)
@@ -29,86 +37,127 @@ export const AuthFormRegister: FC<AuthFormRegisterProps> = ({
 	useEffect(() => {
 		if (!(isSuccess && data?.jwt)) return
 
-		onSubmitHandler(data)
-	}, [data, isSuccess, onSubmitHandler])
+		onSuccessHandler(data)
+	}, [data, isSuccess, onSuccessHandler])
 
 	return (
-		<form
-			css={css`
-				display: flex;
-				flex-direction: column;
-				row-gap: 10px;
-
-				label {
-					display: grid;
-					row-gap: 10px;
-
-					padding: 10px;
-
-					border: 2px solid lightgreen;
-				}
-			`}
+		<Box
+			noValidate
+			component="form"
+			sx={{
+				'display': 'flex',
+				'flexDirection': 'column',
+				'rowGap': '10px',
+				'& .MuiInputBase-input': {
+					color: 'var(--color-font-primary)',
+				},
+				'& .MuiFormLabel-root': {
+					color: 'var(--color-font-primary)',
+				},
+				'& .MuiButtonBase-root.Mui-disabled': {
+					color: 'var(--color-font-primary)',
+					opacity: 0.5,
+				},
+			}}
 			onSubmit={handleSubmit(onSubmit)}
 		>
-			<label>
-				<span>USERNAME</span>
-				<input
-					type="text"
-					{...register('username', {
-						required: {
-							value: true,
-							message: 'Required',
-						},
-						minLength: {
-							value: 6,
-							message: 'Too short',
-						},
-					})}
-				/>
-				<span>{errors.username?.message ?? null}</span>
-			</label>
+			<Controller
+				control={control}
+				name="username"
+				render={({ field }) => (
+					<TextField
+						{...field}
+						required
+						error={!!errors.username?.message}
+						helperText={errors.username?.message}
+						label="USERNAME"
+						variant="filled"
+					/>
+				)}
+				rules={{
+					required: {
+						value: true,
+						message: 'Required',
+					},
+					minLength: {
+						value: 6,
+						message: 'Too short',
+					},
+					onChange() {
+						clearErrors('username')
+					},
+				}}
+			/>
 
-			<label>
-				<span>EMAIL</span>
-				<input
-					type="email"
-					{...register('email', {
-						required: {
-							value: true,
-							message: 'Required',
-						},
-						pattern: {
-							value: emailRegexp,
-							message: 'Please enter a valid email',
-						},
-					})}
-				/>
-				<span>{errors.email?.message ?? null}</span>
-			</label>
+			<Controller
+				control={control}
+				name="email"
+				render={({ field }) => (
+					<TextField
+						{...field}
+						required
+						error={!!errors.email?.message}
+						helperText={errors.email?.message}
+						label="EMAIL"
+						variant="filled"
+					/>
+				)}
+				rules={{
+					required: {
+						value: true,
+						message: 'Required',
+					},
+					pattern: {
+						value: emailRegexp,
+						message: 'Please enter a valid email',
+					},
+					onChange() {
+						clearErrors('email')
+					},
+				}}
+			/>
 
-			<label>
-				<span>PASSWORD</span>
-				<input
-					type="password"
-					{...register('password', {
-						required: {
-							value: true,
-							message: 'Required',
-						},
-						minLength: {
-							value: 6,
-							message: 'Too short',
-						},
-					})}
-				/>
-				<span>{errors.password?.message ?? null}</span>
-			</label>
+			<Controller
+				control={control}
+				name="password"
+				render={({ field }) => (
+					<TextField
+						{...field}
+						required
+						autoComplete="off"
+						error={!!errors.password?.message}
+						helperText={errors.password?.message}
+						label="PASSWORD"
+						type="password"
+						variant="filled"
+					/>
+				)}
+				rules={{
+					required: {
+						value: true,
+						message: 'Required',
+					},
+					minLength: {
+						value: 6,
+						message: 'Too short',
+					},
+					onChange() {
+						clearErrors('password')
+					},
+				}}
+			/>
 
-			{isError && <span>{getErrorMessage(error)}</span>}
+			{isError && (
+				<FormHelperText error>{getErrorMessage(error)}</FormHelperText>
+			)}
 
-			<button disabled={!isValid || isLoading} type="submit">
+			<Button
+				disabled={!isDirty || (isDirty && !isValid) || isLoading}
+				type="submit"
+				variant="contained"
+			>
 				SUBMIT
-			</button>
-		</form>
+			</Button>
+		</Box>
 	)
 }

@@ -1,21 +1,28 @@
 import { FC, useEffect } from 'react'
-import { css } from '@emotion/react'
-import { useForm } from 'react-hook-form'
+import { Box, Button, FormHelperText, TextField } from '@mui/material'
+import { Controller, useForm } from 'react-hook-form'
 
 import { getErrorMessage } from '@@/helpers/getErrorMessage'
 import { useLoginMutation } from '@@/store/redux/auth/auth.api'
 import { LoginBody } from '@@/store/redux/auth/auth.types'
-import { AuthFormLoginProps } from './AuthFormLogin.types'
+import type { AuthFormLoginProps } from './AuthFormLogin.types'
 
-export const AuthFormLogin: FC<AuthFormLoginProps> = ({ onSubmitHandler }) => {
+export const AuthFormLogin: FC<AuthFormLoginProps> = ({ onSuccessHandler }) => {
 	const [callLogin, { data, isLoading, error, isSuccess, isError }] =
 		useLoginMutation()
 
 	const {
 		handleSubmit,
-		formState: { isValid, errors },
-		register,
-	} = useForm<LoginBody>({ mode: 'onBlur' })
+		control,
+		clearErrors,
+		formState: { isValid, errors, isDirty },
+	} = useForm<LoginBody>({
+		mode: 'all',
+		defaultValues: {
+			identifier: '',
+			password: '',
+		},
+	})
 
 	const onSubmit = (formData: LoginBody): void => {
 		void callLogin(formData)
@@ -24,68 +31,100 @@ export const AuthFormLogin: FC<AuthFormLoginProps> = ({ onSubmitHandler }) => {
 	useEffect(() => {
 		if (!(isSuccess && data?.jwt)) return
 
-		onSubmitHandler(data)
-	}, [data, isSuccess, onSubmitHandler])
+		onSuccessHandler(data)
+	}, [data, isSuccess, onSuccessHandler])
 
 	return (
-		<form
-			css={css`
-				display: flex;
-				flex-direction: column;
-				row-gap: 10px;
-
-				label {
-					display: grid;
-					row-gap: 10px;
-
-					padding: 10px;
-
-					border: 2px solid lightgreen;
-				}
-			`}
+		<Box
+			noValidate
+			component="form"
+			sx={{
+				'display': 'flex',
+				'flexDirection': 'column',
+				'rowGap': '10px',
+				'& .MuiInputBase-input': {
+					color: 'var(--color-font-primary)',
+				},
+				'& .MuiFormLabel-root': {
+					color: 'var(--color-font-primary)',
+				},
+				'& .MuiButtonBase-root.Mui-disabled': {
+					color: 'var(--color-font-primary)',
+					backgroundColor: '',
+					opacity: 0.5,
+				},
+			}}
 			onSubmit={handleSubmit(onSubmit)}
 		>
-			<label>
-				<span>IDENTIFIER (EMAIL/USERNAME)</span>
-				<input
-					type="text"
-					{...register('identifier', {
-						required: {
-							value: true,
-							message: 'Required',
-						},
-						minLength: {
-							value: 6,
-							message: 'Too short',
-						},
-					})}
-				/>
-				<span>{errors.identifier?.message ?? null}</span>
-			</label>
+			<Controller
+				control={control}
+				name="identifier"
+				render={({ field }) => (
+					<TextField
+						{...field}
+						required
+						error={!!errors.identifier?.message}
+						helperText={errors.identifier?.message}
+						label="IDENTIFIER (EMAIL/USERNAME)"
+						variant="filled"
+					/>
+				)}
+				rules={{
+					required: {
+						value: true,
+						message: 'Required',
+					},
+					minLength: {
+						value: 6,
+						message: 'Too short',
+					},
+					onChange() {
+						clearErrors('identifier')
+					},
+				}}
+			/>
 
-			<label>
-				<span>PASSWORD</span>
-				<input
-					type="password"
-					{...register('password', {
-						required: {
-							value: true,
-							message: 'Required',
-						},
-						minLength: {
-							value: 6,
-							message: 'Too short',
-						},
-					})}
-				/>
-				<span>{errors.password?.message ?? null}</span>
-			</label>
+			<Controller
+				control={control}
+				name="password"
+				render={({ field }) => (
+					<TextField
+						{...field}
+						required
+						autoComplete="off"
+						error={!!errors.password?.message}
+						helperText={errors.password?.message}
+						label="PASSWORD"
+						type="password"
+						variant="filled"
+					/>
+				)}
+				rules={{
+					required: {
+						value: true,
+						message: 'Required',
+					},
+					minLength: {
+						value: 6,
+						message: 'Too short',
+					},
+					onChange() {
+						clearErrors('password')
+					},
+				}}
+			/>
 
-			{isError && <span>{getErrorMessage(error)}</span>}
+			{isError && (
+				<FormHelperText error>{getErrorMessage(error)}</FormHelperText>
+			)}
 
-			<button disabled={!isValid || isLoading} type="submit">
+			<Button
+				disabled={!isDirty || (isDirty && !isValid) || isLoading}
+				type="submit"
+				variant="contained"
+			>
 				SUBMIT
-			</button>
-		</form>
+			</Button>
+		</Box>
 	)
 }

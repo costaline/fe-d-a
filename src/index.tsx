@@ -1,4 +1,5 @@
 import './init/i18n'
+import '@fontsource/roboto'
 
 import { disableReactDevTools } from '@fvilers/disable-react-devtools'
 import OverlayScrollbars from 'overlayscrollbars'

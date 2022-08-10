@@ -1,10 +1,12 @@
-import { createElement, FC, useState } from 'react'
+import { FC, useState } from 'react'
+import { Button, Checkbox, FormControlLabel } from '@mui/material'
 
 import { useAppDispatch } from '@@/init/redux/hooks'
 import { authActions } from '@@/store/redux/auth/auth.slice'
-import { AuthResponse } from '@@/store/redux/auth/auth.types'
+import type { AuthResponse } from '@@/store/redux/auth/auth.types'
 import { AuthFormLogin } from '../AuthFormLogin'
 import { AuthFormRegister } from '../AuthFormRegister'
+import type { AuthFormProps } from './AuthForm.types'
 
 //	TODO: restore password
 const authVariants = ['login', 'register'] as const
@@ -12,7 +14,7 @@ const authVariants = ['login', 'register'] as const
 type AuthVariants = typeof authVariants[number]
 
 type Forms = {
-	[F in AuthVariants]: FC<{ onSubmitHandler: (data: AuthResponse) => void }>
+	[F in AuthVariants]: FC<AuthFormProps<AuthResponse>>
 }
 
 //	TODO: restore password
@@ -28,7 +30,9 @@ export const AuthForm: FC = () => {
 
 	const dispatch = useAppDispatch()
 
-	const onSubmitHandler = (data: AuthResponse): void => {
+	const checkBoxChangeHandler = (): void => setIsRemember((prev) => !prev)
+
+	const onSuccessHandler = (data: AuthResponse): void => {
 		dispatch(
 			authActions.setCredentials({
 				token: data.jwt,
@@ -39,33 +43,30 @@ export const AuthForm: FC = () => {
 		)
 	}
 
+	const Form = forms[authType]
+
 	return (
 		<div>
-			{createElement(forms[authType], {
-				onSubmitHandler,
-			})}
+			<Form onSuccessHandler={onSuccessHandler} />
 
-			<label>
-				<span>REMEMBER ME</span>
-				<input
-					checked={isRemember}
-					name="remember"
-					type="checkbox"
-					onChange={() => setIsRemember((prev) => !prev)}
-				/>
-			</label>
+			<FormControlLabel
+				control={
+					<Checkbox checked={isRemember} onChange={checkBoxChangeHandler} />
+				}
+				label="REMEMBER ME"
+			/>
 
 			<div>
 				{authVariants
 					.filter((variant) => variant !== authType)
 					.map((variant) => (
-						<button
+						<Button
 							key={variant}
-							type="button"
+							variant="text"
 							onClick={() => setAuthType(variant)}
 						>
 							{variant}
-						</button>
+						</Button>
 					))}
 			</div>
 		</div>
